@@ -45,6 +45,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "ChainIjazah — Verifikasi Ijazah Digital di Blockchain" },
+      { name: "description", content: "EduChain Verify is a Web3 application for verifying digital diplomas using blockchain technology." },
+      { property: "og:description", content: "EduChain Verify is a Web3 application for verifying digital diplomas using blockchain technology." },
+      { name: "twitter:description", content: "EduChain Verify is a Web3 application for verifying digital diplomas using blockchain technology." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c290158a-9a3b-4c37-bde5-5e6320ebfd78/id-preview-62f0af65--f1294271-38a4-4886-a081-9b5c7d0a653c.lovable.app-1777434497204.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c290158a-9a3b-4c37-bde5-5e6320ebfd78/id-preview-62f0af65--f1294271-38a4-4886-a081-9b5c7d0a653c.lovable.app-1777434497204.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
