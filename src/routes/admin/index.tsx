@@ -6,8 +6,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, FileText, Hash, Box, Loader2 } from "lucide-react";
+import { Plus, Search, FileText, Hash, Box, Loader2, Trash2 } from "lucide-react";
 import { shortHash } from "@/lib/web3-sim";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({ meta: [{ title: "Dashboard Admin — ChainIjazah" }] }),
@@ -41,6 +42,29 @@ function AdminDashboard() {
       .order("created_at", { ascending: false });
     setItems(data ?? []);
     setLoading(false);
+  }
+
+  async function handleDelete(id: string, filePath: string) {
+    if (!confirm("Yakin ingin menghapus ijazah ini? Data dan file akan dihapus permanen.")) return;
+
+    // Hapus file dari storage dulu
+    if (filePath) {
+      const { error: storageErr } = await supabase.storage.from("ijazah-files").remove([filePath]);
+      if (storageErr) {
+        toast.error("Gagal menghapus file: " + storageErr.message);
+        return;
+      }
+    }
+
+    // Hapus record dari DB
+    const { error: dbErr } = await supabase.from("ijazah").delete().eq("id", id);
+    if (dbErr) {
+      toast.error("Gagal menghapus data: " + dbErr.message);
+      return;
+    }
+
+    toast.success("Ijazah berhasil dihapus");
+    setItems((prev) => prev.filter((i) => i.id !== id));
   }
 
   const filtered = items.filter(
@@ -130,13 +154,22 @@ function AdminDashboard() {
                           #{i.block_number.toLocaleString()}
                         </td>
                         <td className="py-3 pr-4 text-right">
-                          <Link
-                            to="/cert/$certId"
-                            params={{ certId: i.cert_id }}
-                            className="text-primary hover:underline"
-                          >
-                            Lihat
-                          </Link>
+                          <div className="flex items-center justify-end gap-3">
+                            <Link
+                              to="/cert/$certId"
+                              params={{ certId: i.cert_id }}
+                              className="text-primary hover:underline"
+                            >
+                              Lihat
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(i.id, i.file_path)}
+                              className="text-destructive hover:text-destructive/80"
+                              title="Hapus ijazah"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
