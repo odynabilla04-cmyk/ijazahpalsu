@@ -44,6 +44,29 @@ function AdminDashboard() {
     setLoading(false);
   }
 
+  async function handleDelete(id: string, filePath: string) {
+    if (!confirm("Yakin ingin menghapus ijazah ini? Data dan file akan dihapus permanen.")) return;
+
+    // Hapus file dari storage dulu
+    if (filePath) {
+      const { error: storageErr } = await supabase.storage.from("ijazah-files").remove([filePath]);
+      if (storageErr) {
+        toast.error("Gagal menghapus file: " + storageErr.message);
+        return;
+      }
+    }
+
+    // Hapus record dari DB
+    const { error: dbErr } = await supabase.from("ijazah").delete().eq("id", id);
+    if (dbErr) {
+      toast.error("Gagal menghapus data: " + dbErr.message);
+      return;
+    }
+
+    toast.success("Ijazah berhasil dihapus");
+    setItems((prev) => prev.filter((i) => i.id !== id));
+  }
+
   const filtered = items.filter(
     (i) =>
       !q ||
