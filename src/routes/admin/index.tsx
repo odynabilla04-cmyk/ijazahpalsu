@@ -154,13 +154,22 @@ function AdminDashboard() {
                           #{i.block_number.toLocaleString()}
                         </td>
                         <td className="py-3 pr-4 text-right">
-                          <Link
-                            to="/cert/$certId"
-                            params={{ certId: i.cert_id }}
-                            className="text-primary hover:underline"
-                          >
-                            Lihat
-                          </Link>
+                          <div className="flex items-center justify-end gap-3">
+                            <Link
+                              to="/cert/$certId"
+                              params={{ certId: i.cert_id }}
+                              className="text-primary hover:underline"
+                            >
+                              Lihat
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(i.id, i.file_path)}
+                              className="text-destructive hover:text-destructive/80"
+                              title="Hapus ijazah"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
