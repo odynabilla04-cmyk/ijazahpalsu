@@ -137,12 +137,37 @@ function CertPage() {
               </div>
 
               {pdfUrl && (
-                <a href={pdfUrl} target="_blank" rel="noreferrer" className="inline-block">
-                  <Button variant="outline">
-                    <FileText className="mr-2 h-4 w-4" /> Lihat PDF Ijazah
-                    <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                  </Button>
-                </a>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <FileText className="h-4 w-4 text-primary" /> Preview PDF Ijazah
+                    </div>
+                    <div className="flex gap-2">
+                      <a href={pdfUrl} target="_blank" rel="noreferrer">
+                        <Button variant="outline" size="sm">
+                          Buka <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                        </Button>
+                      </a>
+                      <a href={pdfUrl} download={`${ijazah.cert_id}.pdf`}>
+                        <Button variant="outline" size="sm">
+                          <Download className="mr-1.5 h-3.5 w-3.5" /> Unduh
+                        </Button>
+                      </a>
+                    </div>
+                  </div>
+                  <object
+                    data={pdfUrl}
+                    type="application/pdf"
+                    className="h-[600px] w-full rounded-lg border border-border bg-muted"
+                    aria-label={`PDF ijazah ${ijazah.cert_id}`}
+                  >
+                    <iframe
+                      src={pdfUrl}
+                      title={`PDF ijazah ${ijazah.cert_id}`}
+                      className="h-full w-full rounded-lg"
+                    />
+                  </object>
+                </div>
               )}
             </CardContent>
           </Card>
