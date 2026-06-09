@@ -6,8 +6,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, FileText, Hash, Box, Loader2 } from "lucide-react";
+import { Plus, Search, FileText, Hash, Box, Loader2, Trash2 } from "lucide-react";
 import { shortHash } from "@/lib/web3-sim";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({ meta: [{ title: "Dashboard Admin — ChainIjazah" }] }),
